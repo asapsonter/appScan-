@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">scanQrApp</string>
+    <string name="main_fragment">Main Fragment</string>
+    <string name="zone_detail_fragment">Zone Detail Fragment</string>
+    <string name="building">Building</string>
+    <string name="floor">Floor</string>
+    <string name="zone_with_id">Zone %1$d</string>
+    <string name="zone_detail_unique_id">B%1$s-F%2$s-Z%3$s-%4$s-%5$s</string>
+    <string name="back">Back</string>
+
+</resources>
