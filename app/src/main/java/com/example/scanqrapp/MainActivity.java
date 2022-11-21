@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         com.example.scanqrapp.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //initiate navHost
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_graph);
         if (navHostFragment != null) {

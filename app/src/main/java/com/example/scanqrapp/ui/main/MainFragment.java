@@ -1,8 +1,10 @@
 package com.example.scanqrapp.ui.main;
 
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -21,10 +24,20 @@ import com.example.scanqrapp.R;
 import com.example.scanqrapp.databinding.FragmentMainBinding;
 
 public class MainFragment extends Fragment implements MainFragmentCallbacks{
-
+    //set mainFragment view model identifier
     private MainViewModel mViewModel;
     private FragmentMainBinding binding;
+
+    //set zone adapter identify
     ZoneAdapter zoneAdapter;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        binding = FragmentMainBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -36,17 +49,6 @@ public class MainFragment extends Fragment implements MainFragmentCallbacks{
         setSpinner();
 
     }
-
-
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        binding = FragmentMainBinding.inflate(getLayoutInflater());
-        return binding.getRoot();
-    }
-
     private void setZoneRecyclerView() {
         zoneAdapter = new ZoneAdapter(
                 mViewModel.zoneList,
@@ -55,18 +57,23 @@ public class MainFragment extends Fragment implements MainFragmentCallbacks{
                 mViewModel.floor,
                 this
 
+                //call the callback from mainFragmentCallbacks with "this"
+
         );
+        // set recycler view to zoneAdapter.
         binding.rvZones.setAdapter(zoneAdapter);
-        binding.rvZones.setLayoutManager(new GridLayoutManager(requireContext(), 1
+        //setting new layout view and span count
+        binding.rvZones.setLayoutManager(new GridLayoutManager(requireContext(), 3
         ));
 
     }
-
+    //Initiate on zone click action from mainFragmentsCallbacks
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onZoneClick(int i) {
         if (i == mViewModel.zoneList.size()){
             mViewModel.incrementZoneList();
+            //notifies the data has changed. view should refresh itself
             zoneAdapter.notifyDataSetChanged();
         } else if ( i < mViewModel.zoneList.size()){
             Bundle bundle = new Bundle();
@@ -90,6 +97,45 @@ public class MainFragment extends Fragment implements MainFragmentCallbacks{
                 );
         adapterBuilding.setDropDownViewResource(R.layout.item_spinner);
         spinnerBuilding.setAdapter(adapterBuilding);
+        spinnerBuilding.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long id) {
+                mViewModel.building = Integer.parseInt((String) adapterView.getSelectedItem());
+                setZoneRecyclerView();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        Spinner spinnerFloor = binding.spinnerFloor;
+        ArrayAdapter<CharSequence> adapterFloor =
+                ArrayAdapter.createFromResource(
+
+                                requireContext(),
+                                R.array.floors_array,
+                                android.R.layout.simple_spinner_item
+                        );
+
+        adapterFloor.setDropDownViewResource(R.layout.item_spinner);
+        spinnerFloor.setAdapter(adapterFloor);
+        spinnerFloor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                mViewModel.floor = Integer.parseInt((String) adapterView.getSelectedItem());
+                setZoneRecyclerView();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 
     }
 
