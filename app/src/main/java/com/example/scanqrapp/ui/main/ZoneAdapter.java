@@ -84,7 +84,7 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ViewHolder> {
                     "building" + building + "_floor" + floor + "_zone" + zoneArray.get(position) + ".xls"
             );
             if (file.exists()) {
-                viewHolder.tvName.setTextColor(context.getResources().getColor(R.color.app_blue, context.getTheme()));
+                viewHolder.tvName.setTextColor(context.getResources().getColor(R.color.purple_500, context.getTheme()));
             } else {
                 viewHolder.tvName.setTextColor(context.getResources().getColor(R.color.black, context.getTheme()));
             }

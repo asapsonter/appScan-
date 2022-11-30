@@ -18,7 +18,6 @@ import com.example.scanqrapp.databinding.FragmentQrScanBinding;
 import com.example.scanqrapp.models.SingleScannedRow;
 import com.google.zxing.Result;
 
-
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -91,18 +90,24 @@ public class QrScanFragment extends Fragment implements ZXingScannerView.ResultH
         super.onPause();
         mScannerView.stopCamera();           // Stop camera on pause
     }
-
+    // new bug fix to extract UUIDs
     @Override
     public void handleResult(Result rawResult) {
+        //String result = rawResult.getText().replace(" ", "");
+        //String[] splitString = result.split(System.lineSeparator());
         String result = rawResult.getText().replace(" ", "");
-        String[] splitString = result.split(System.lineSeparator());
-        if (
-                splitString[0].matches("^[a-zA-Z0-9]{32}[\\n\\r]?")
-        ) {
+        String[] splitString = result.split("\\n");
+        //List<String> elephantList = Arrays.asList(result.split(","));
+        Log.d("Read Data is 0", splitString[0].substring(0,31));
+        Log.d("Read Data is 1", splitString[1]);
+        if (1==1)
+        //        splitString[0].matches("^[a-zA-Z0-9]{32}[\\n\\r]?")
+        //) {
+        {
             Log.e("QR", rawResult.getText());
 
             SingleScannedRow singleScannedRow = new SingleScannedRow();
-            singleScannedRow.uuid = splitString[0];
+            singleScannedRow.uuid = splitString[0].substring(0,31);
             singleScannedRow.productName = splitString[1];
             singleScannedRow.building = building + "";
             singleScannedRow.floor = floor + "";

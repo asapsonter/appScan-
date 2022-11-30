@@ -9,9 +9,13 @@
         android:id="@+id/main_Fragment"
         android:name="com.example.scanqrapp.ui.main.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_main_Fragment_to_zone_detail_fragment"
+            app:destination="@id/zone_detail_fragment" />
+    </fragment>
     <fragment
-        android:id="@+id/qrScanFragment"
+        android:id="@+id/qr_scan_fragment"
         android:name="com.example.scanqrapp.ui.qr_scan.QrScanFragment"
         android:label="fragment_qr_scan"
         tools:layout="@layout/fragment_qr_scan" />

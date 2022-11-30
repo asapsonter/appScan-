@@ -18,6 +18,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.scanqrapp.R;
+import com.example.scanqrapp.databinding.FragmentZoneDetailBinding;
+import com.example.scanqrapp.models.SingleScannedRow;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -31,9 +33,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import com.example.scanqrapp.databinding.FragmentZoneDetailBinding;
-import com.example.scanqrapp.models.SingleScannedRow;
 
 public class ZoneDetailFragment extends Fragment {
 
