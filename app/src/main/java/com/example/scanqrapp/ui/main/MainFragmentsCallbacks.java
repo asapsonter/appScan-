@@ -1,5 +1,7 @@
 package com.example.scanqrapp.ui.main;
 
-public interface MainFragmentCallbacks {
+public interface MainFragmentsCallbacks {
     void onZoneClick(int position);
+
+
 }
