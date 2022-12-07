@@ -3,25 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/main_Fragment">
+    app:startDestination="@id/mainFragment">
 
     <fragment
-        android:id="@+id/main_Fragment"
+        android:id="@+id/mainFragment"
         android:name="com.example.scanqrapp.ui.main.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
-        <action
-            android:id="@+id/action_main_Fragment_to_zone_detail_fragment"
-            app:destination="@id/zone_detail_fragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/qr_scan_fragment"
-        android:name="com.example.scanqrapp.ui.qr_scan.QrScanFragment"
-        android:label="fragment_qr_scan"
-        tools:layout="@layout/fragment_qr_scan" />
-    <fragment
-        android:id="@+id/zone_detail_fragment"
-        android:name="com.example.scanqrapp.ui.zone_details.ZoneDetailFragment"
-        android:label="fragment_zone_detail"
-        tools:layout="@layout/fragment_zone_detail" />
+        android:label="@string/main_fragment"
+        tools:layout="@layout/fragment_main" />
+
 </navigation>
