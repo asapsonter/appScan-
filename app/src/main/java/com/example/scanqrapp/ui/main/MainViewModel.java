@@ -9,7 +9,7 @@ public class MainViewModel extends ViewModel {
     ArrayList<Integer> zoneList = new ArrayList<>();
     int building = 1, floor = 1;
 
-   public void incrementZoneList(){
+   public void incrementZoneList(int zone){
        zoneList.add(zoneList.size() + 1 );
        zoneList.add(zoneList.size() + 1 );
        zoneList.add(zoneList.size() + 1 );
@@ -19,5 +19,9 @@ public class MainViewModel extends ViewModel {
    public void initializeZoneList(int zoneTotal){
 
        zoneList = new ArrayList<>(); // new zoneList array instance
+
+       for (int i = 1; i <= zoneTotal; i++) {
+           zoneList.add(i);
+       }
    }
 }

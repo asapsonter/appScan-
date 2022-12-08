@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,12 +16,16 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.scanqrapp.databinding.FragmentMainBinding;
+import com.example.scanqrapp.models.SingleScannedRow;
+
+import java.util.ArrayList;
 
 public class MainFragment extends Fragment implements  MainFragmentsCallbacks  {
 
     private MainViewModel mViewModel;
     private FragmentMainBinding binding;
     ZoneAdapter zoneAdapter;
+    private final ArrayList<SingleScannedRow> excelRowArrayList = new ArrayList<>();
 
 
 
@@ -65,8 +70,23 @@ public class MainFragment extends Fragment implements  MainFragmentsCallbacks  {
 
     }
     private void setZoneRecyclerView() {
-        SharedPreferences sharedpref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        int zone sharedpref.getInt("zone", 9);
+        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        int zone =  sharedPreferences.getInt("zone", 9);
+        mViewModel.incrementZoneList(zone);
+        zoneAdapter = new ZoneAdapter(
+                mViewModel.zoneList,
+                requireContext(),
+                mViewModel.building,
+                mViewModel.floor,
+                excelRowArrayList,
+                this
+        );
+
+
+        //binding recycler view ud instance to instantiate zoneAdapter data
+
+        binding.rvZones.setAdapter(zoneAdapter);
+        binding.rvZones.setLayoutManager(new GridLayoutManager(requireContext(), 3));
 
 
 
