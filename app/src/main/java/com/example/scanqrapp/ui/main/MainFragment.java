@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.scanqrapp.R;
 import com.example.scanqrapp.databinding.FragmentMainBinding;
 import com.example.scanqrapp.models.SingleScannedRow;
 
@@ -51,28 +54,73 @@ public class MainFragment extends Fragment implements  MainFragmentsCallbacks  {
         return binding.getRoot();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
-    public void onZoneClick(int i){
+    public void onZoneClick(int i) {
+       // set view model  to set and increament positon of zone adapter
+        if (i == mViewModel.zoneList.size()){
+            mViewModel.incrementZoneList();
+            updateTotalZone();
+            zoneAdapter.notifyDataSetChanged();
+        } else if ( i < mViewModel.zoneList.size()){
+            Bundle bundle = new Bundle();
+            bundle.putInt("zone", mViewModel.zoneList.get(i));
+            bundle.putInt("building", Integer.parseInt(binding.spinnerBuilding.getSelectedItem().toString()));
+            bundle.putInt("floor", Integer.parseInt(binding.spinnerFloor.getSelectedItem().toString()));
+          /*  Navigation.findNavController(
+                    requireActivity(),
+                    binding.getRoot().getId()
+            ).navigate(R.id.zone_detail_fragment, bundle);*/
+        }
 
+
+
+    }
+
+    private void updateTotalZone() {
+       SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+       int zone = sharedPreferences.getInt("zone", 9);
+       SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("zone", zone + 3);
+        editor.apply();
     }
 
     //set spinners building & floor
     private void setSpinner(){
        //initialize building spinner
         Spinner spinnerBuilding = binding.spinnerBuilding;
+        ArrayAdapter<CharSequence> adapterBuilding = ArrayAdapter
+                .createFromResource(
+                        requireContext(),
+                        R.array.floors_array,
+                        android.R.layout.simple_spinner_item
+                );
+
+        //invoke building spinner
+        adapterBuilding.setDropDownViewResource(R.layout.item_spinner);
+        spinnerBuilding.setAdapter(adapterBuilding);
 
 
         //initialize building spinner instance
         Spinner spinnerFloor = binding.spinnerFloor;
         //initialize floor arrays
-        //ArrayAdapter<CharSequence> adapterFloor = ArrayAdapter;
+        ArrayAdapter<CharSequence> adapterFloor = ArrayAdapter
+                .createFromResource(
+                        requireContext(),
+                        R.array.floors_array,
+                        android.R.layout.simple_spinner_item
+                );
+        //initiate floor spinner
+        adapterFloor.setDropDownViewResource(R.layout.item_spinner);
+        spinnerFloor.setAdapter(adapterFloor);
+
 
 
     }
     private void setZoneRecyclerView() {
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
         int zone =  sharedPreferences.getInt("zone", 9);
-        mViewModel.incrementZoneList(zone);
+        mViewModel.incrementZoneList();
         zoneAdapter = new ZoneAdapter(
                 mViewModel.zoneList,
                 requireContext(),

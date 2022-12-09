@@ -77,10 +77,17 @@ public  class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ViewHolder>{
         if (position < zoneArray.size()){
             viewHolder.tvName.setText(String.format(context.getResources().getString(R.string.zone_with_id),zoneArray.get(position)));
 
-
+            for (SingleScannedRow record : excelRecordsList) {
+                if (record.building.equals(this.building + "") && record.equals(this.floor + "") && record.zone.equals(zoneArray.get(position) + "")) {
+                    //here is block that will make a zone text switch color to blue if it is occupied
+                    viewHolder.tvName.setTextColor(context.getResources().getColor(R.color.app_blue,context.getTheme()));
+                    break;
+                } else {
+                    //if not occupied set color black
+                    viewHolder.tvName.setTextColor(context.getResources().getColor(R.color.black, context.getTheme()));
+                }
+            }
         }
-
-
         // IF statement to add the number of grids in recycler view positions
         if (position >= (getItemCount()-3)){
             viewHolder.bottomSeparator.setVisibility(View.GONE);
@@ -109,7 +116,6 @@ public  class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ViewHolder>{
         );
 
         viewHolder.setIsRecyclable(false);
-
 
     }
     // Return the size of your dataset (invoked by the layout manager)
