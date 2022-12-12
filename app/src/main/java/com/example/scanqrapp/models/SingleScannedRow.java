@@ -19,4 +19,10 @@ public class SingleScannedRow {
 
         return Objects.equals(uuid, that.uuid) && Objects.equals(building, that.building) && Objects.equals(floor, that.floor) && Objects.equals(zone, that.zone) && Objects.equals(uniqueId, that.uniqueId) && Objects.equals(productName, that.productName);
     }
+
+    @Override
+    //use hash function to convert strings Objects into numerical values
+    public int hashCode() {
+        return Objects.hash(uuid, building, floor, zone, uniqueId, productName);
+    }
 }

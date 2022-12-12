@@ -82,4 +82,44 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="15dp"
+        app:cardElevation="50dp"
+        app:layout_constraintBottom_toTopOf="@id/iv_qr"
+        app:layout_constraintHeight_default="wrap"
+        app:layout_constraintTop_toBottomOf="@id/cv_buildings_floors"
+        app:layout_constraintVertical_bias="0">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_zones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="15dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="5dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="3"
+            tools:itemCount="9"
+            tools:listitem="@layout/item_zone">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </com.google.android.material.card.MaterialCardView>
+    <ImageView
+        android:id="@+id/iv_qr"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_baseline_send_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

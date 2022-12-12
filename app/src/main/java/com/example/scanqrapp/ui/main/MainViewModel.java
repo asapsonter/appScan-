@@ -19,5 +19,9 @@ public class MainViewModel extends ViewModel {
    public void initializeZoneList(int zoneTotal){
 
        zoneList = new ArrayList<>(); // new zoneList array instance
+
+       for (int i = 1; i <= zoneTotal; i++) {
+           zoneList.add(i);
+       }
    }
 }
