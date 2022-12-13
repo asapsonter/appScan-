@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.scanqrapp.databinding.FragmentZoneDetailBinding;
 import com.example.scanqrapp.models.SingleScannedRow;
@@ -52,8 +53,14 @@ public class ZoneDetailFragment extends Fragment implements DetailFragmentCallba
     // method to set recycler view at scanned zone fragment
     private void  SetScannedQrRecyclerView() {
         ScannedQrAdapter scannedQrAdapter = new ScannedQrAdapter(excelRowArrayList, requireContext(), this);
+        binding.rvScannedQrs.setAdapter(scannedQrAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext());
+        // linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        binding.rvScannedQrs.setLayoutManager(linearLayoutManager);
 
     }
+
 
 
     @Override
