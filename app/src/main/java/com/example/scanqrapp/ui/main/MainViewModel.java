@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 
 public class MainViewModel extends ViewModel {
-   //state zonelist array instance
+   //state zone list array instance
     ArrayList<Integer> zoneList = new ArrayList<>();
     int building = 1, floor = 1;
 
