@@ -28,6 +28,14 @@
         app:layout_constraintBottom_toBottomOf="@id/iv_back"
         app:layout_constraintStart_toEndOf="@id/iv_back"
         app:layout_constraintTop_toTopOf="@id/iv_back" />
+    <View
+        android:id="@+id/view_back"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_back"
+        app:layout_constraintEnd_toEndOf="@id/tv_back"
+        app:layout_constraintStart_toStartOf="@id/iv_back"
+        app:layout_constraintTop_toTopOf="@id/iv_back" />
 
     <TextView
         android:id="@+id/tv_heading_sycra"
