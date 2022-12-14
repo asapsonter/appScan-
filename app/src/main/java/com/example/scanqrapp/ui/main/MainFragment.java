@@ -1,12 +1,5 @@
 package com.example.scanqrapp.ui.main;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,6 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.scanqrapp.R;
 import com.example.scanqrapp.databinding.FragmentMainBinding;
@@ -67,10 +67,10 @@ public class MainFragment extends Fragment implements  MainFragmentsCallbacks  {
             bundle.putInt("zone", mViewModel.zoneList.get(i));
             bundle.putInt("building", Integer.parseInt(binding.spinnerBuilding.getSelectedItem().toString()));
             bundle.putInt("floor", Integer.parseInt(binding.spinnerFloor.getSelectedItem().toString()));
-          /*  Navigation.findNavController(
+            Navigation.findNavController(
                     requireActivity(),
                     binding.getRoot().getId()
-            ).navigate(R.id.zone_detail_fragment, bundle);*/
+            ).navigate(R.id.zoneDetailFragment, bundle);
         }
 
 
