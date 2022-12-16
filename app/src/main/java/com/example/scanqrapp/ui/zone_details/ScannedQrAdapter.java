@@ -39,7 +39,7 @@ public class ScannedQrAdapter extends RecyclerView.Adapter<ScannedQrAdapter.View
 
     @NonNull
     @Override
-    public ScannedQrAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item_qr_scan, viewGroup, false);
@@ -63,6 +63,7 @@ public class ScannedQrAdapter extends RecyclerView.Adapter<ScannedQrAdapter.View
 
     @Override
     public int getItemCount() {
+
         return zoneArray.size();
     }
 }

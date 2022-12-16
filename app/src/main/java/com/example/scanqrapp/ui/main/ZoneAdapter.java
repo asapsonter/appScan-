@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public  class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ViewHolder>{
     private final ArrayList<Integer> zoneArray;
     private final Context context;
-    private final MainFragmentsCallbacks mainFragmentCallbacks;
+    private final MainFragmentCallbacks mainFragmentCallbacks;
     private int building, floor;
     private ArrayList<SingleScannedRow> excelRecordsList;
 
@@ -27,7 +27,6 @@ public  class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ViewHolder>{
     /*this the class where the zone adapter in charge of pass data in the zone UI is stated */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView tvName;
-        public final RecyclerView rvZones;
         public final ImageView imageViewAdd;
         public final View bottomSeparator, rightSeparator;
         public final ConstraintLayout itemZoneMain;
@@ -38,7 +37,7 @@ public  class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ViewHolder>{
             super(view);
             // here you state objects ids of all item_zone properties
             //
-            rvZones = (RecyclerView) view.findViewById(R.id.rv_zones);
+
             tvName = (TextView) view.findViewById(R.id.tv_zone);
             bottomSeparator = (View) view.findViewById(R.id.seperator_bottom);
             rightSeparator = (View) view.findViewById(R.id.seperator_right);
@@ -52,7 +51,7 @@ public  class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ViewHolder>{
                        int _building,
                        int _floor,
                        ArrayList<SingleScannedRow> excelRecordsList,
-                       MainFragmentsCallbacks mainFragmentCallbacks){
+                       MainFragmentCallbacks mainFragmentCallbacks){
         zoneArray = dataSet;
         this.context = context;
         this.mainFragmentCallbacks = mainFragmentCallbacks;
@@ -64,7 +63,7 @@ public  class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ViewHolder>{
     // Create new views (invoked by the layout manager)
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         //view inflate item_zone layout
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item_zone, viewGroup,false);
@@ -73,14 +72,14 @@ public  class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ViewHolder>{
     }
      //set position and size position of the adapter items
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         if (position < zoneArray.size()){
             viewHolder.tvName.setText(String.format(context.getResources().getString(R.string.zone_with_id),zoneArray.get(position)));
 
             for (SingleScannedRow record : excelRecordsList) {
-                if (record.building.equals(this.building + "") && record.equals(this.floor + "") && record.zone.equals(zoneArray.get(position) + "")) {
+                if (record.building.equals(this.building + "") && record.floor.equals(this.floor + "") && record.zone.equals(zoneArray.get(position) + "")) {
                     //here is block that will make a zone text switch color to blue if it is occupied
-                    viewHolder.tvName.setTextColor(context.getResources().getColor(R.color.app_blue,context.getTheme()));
+                    viewHolder.tvName.setTextColor(context.getResources().getColor(R.color.app_blue, context.getTheme()));
                     break;
                 } else {
                     //if not occupied set color black
@@ -89,7 +88,7 @@ public  class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ViewHolder>{
             }
         }
         // IF statement to add the number of grids in recycler view positions
-        if (position >= (getItemCount()-3)){
+        if (position >= (getItemCount() - 3)){
             viewHolder.bottomSeparator.setVisibility(View.GONE);
         } else {
             viewHolder.bottomSeparator.setVisibility(View.VISIBLE);
