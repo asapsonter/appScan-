@@ -17,6 +17,20 @@
         android:src="@drawable/ic_baseline_delete_forever_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:id="@+id/langChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/exo2_regular"
+        android:text="EN/中文"
+        android:clickable="true"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/cv_buildings_floors"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.403"
+        android:focusable="true" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_buildings_floors"

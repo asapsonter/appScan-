@@ -17,10 +17,17 @@ import com.example.scanqrapp.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
+    // FragmentTransaction fragmentTransaction;
+
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+       // fragmentTransaction.setCustomAnimations(R.anim.in_from_right, R.anim.out_to_left);
+
+
         com.example.scanqrapp.databinding.ActivityMainBinding binding = ActivityMainBinding
                 .inflate(getLayoutInflater());
                 setContentView(binding.getRoot());

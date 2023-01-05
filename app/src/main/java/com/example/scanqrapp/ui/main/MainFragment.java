@@ -1,9 +1,13 @@
 package com.example.scanqrapp.ui.main;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -36,23 +41,29 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 
-public class MainFragment extends Fragment implements MainFragmentCallbacks {
+public  class MainFragment extends Fragment implements MainFragmentCallbacks {
 
     private MainViewModel mViewModel;
     private FragmentMainBinding binding;
     ZoneAdapter zoneAdapter;
     private  ArrayList<SingleScannedRow> excelRowArrayList = new ArrayList<>();
+    private FragmentTransaction fragmentTransaction;
 
    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
        super.onViewCreated(view, savedInstanceState);
+      requireActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
        //add set spinner method to view created
        setSpinner();
        //add zone recycler view method
        setZoneRecyclerView();
+
+
+
 
        //save data to local storage
        binding.ivQr.setOnClickListener(view1 -> {
@@ -86,9 +97,85 @@ public class MainFragment extends Fragment implements MainFragmentCallbacks {
                    } ))
                    .setNegativeButton(android.R.string.no, null).show();
        });
+       /// language change listner //////////////
+       binding.langChange.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               changeLang();
+               //Log.d("success", "this button works");
+           }
+       });
+
    }
+    private void changeLang(){
+        final String languages[] = {"English", "中文"};
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+        mBuilder.setTitle(R.string.lang);
 
 
+        mBuilder.setSingleChoiceItems(languages, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    setLocale("");
+                    getActivity().recreate();
+                }
+                else if (which == 1){
+                    setLocale("zh");
+                    getActivity().recreate();
+                }
+            }
+        });
+        // create and show dialog
+        mBuilder.create();
+        mBuilder.show();
+    }
+    // //////////////get language strings
+    private void setLocale(String language){
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+
+        /// config the Base activity around app
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(configuration, getActivity().
+                getBaseContext().getResources().getDisplayMetrics());
+
+        //initiate shared pref ///////
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences("settings", MODE_PRIVATE).edit();
+        editor.putString("app_lang", language);
+        editor.apply();
+    }
+    private void loadLocale() {
+        SharedPreferences preferences = getActivity().getSharedPreferences("settings", MODE_PRIVATE);
+        String language = preferences.getString("app_lang", "");
+        setLocale(language);
+    }
+
+    //// inis
+//    Fragment fragment = new FragmentB();
+//    getSupportFragmentManager().beginTransaction()
+//    .setCustomAnimations(
+//            R.anim.slide_in,  // enter
+//            R.anim.fade_out,  // exit
+//            R.anim.fade_in,   // popEnter
+//            R.anim.slide_out  // popExit
+//    )
+//    .replace(R.id.fragment_container, fragment)
+//    .addToBackStack(null)
+//    .commit();
+
+
+
+//    public void slideAnimation(){
+//        MainFragment mainFragment = new MainFragment();
+//        getSupportFragmentManager(AppCompatActivity).beginTransaction().setCustomAnimations(R.anim.in_from_left)
+//                .replace(R.id.mainFragment, mainFragment)
+//                .addToBackStack(null)
+//                .commit();
+//
+//
+//    }
 
     @Nullable
     @Override
@@ -96,6 +183,8 @@ public class MainFragment extends Fragment implements MainFragmentCallbacks {
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(getLayoutInflater());
         return binding.getRoot();
+
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -111,10 +200,12 @@ public class MainFragment extends Fragment implements MainFragmentCallbacks {
             bundle.putInt("zone", mViewModel.zoneList.get(i));
             bundle.putInt("building", Integer.parseInt(binding.spinnerBuilding.getSelectedItem().toString()));
             bundle.putInt("floor", Integer.parseInt(binding.spinnerFloor.getSelectedItem().toString()));
+            //set navigation to zonedetails fragment
             Navigation.findNavController(
                     requireActivity(),
                     binding.getRoot().getId()
             ).navigate(R.id.zoneDetailFragment, bundle);
+            requireActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
         }
 
 

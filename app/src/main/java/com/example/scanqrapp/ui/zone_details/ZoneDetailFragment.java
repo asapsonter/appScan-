@@ -49,10 +49,12 @@ public class ZoneDetailFragment extends Fragment implements DetailFragmentCallba
     private ArrayList<SingleScannedRow> excelRowArrayListComplete = new ArrayList<>();
     private String fileName;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentZoneDetailBinding.inflate(getLayoutInflater());
+
 
         return binding.getRoot();
     }
@@ -60,6 +62,8 @@ public class ZoneDetailFragment extends Fragment implements DetailFragmentCallba
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
         mViewModel = new ViewModelProvider(this).get(ZoneDetailViewModel.class);
 
         zone = getArguments().getInt("zone", 1);
@@ -164,6 +168,12 @@ public class ZoneDetailFragment extends Fragment implements DetailFragmentCallba
     private void setListeners() {
 
         binding.viewBack.setOnClickListener(view -> Navigation.findNavController(binding.getRoot()).popBackStack());
+        requireActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+
+
+
+
+
 
         binding.ivQr.setOnClickListener(view -> {
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
@@ -188,6 +198,17 @@ public class ZoneDetailFragment extends Fragment implements DetailFragmentCallba
 
 
     }
+
+
+
+   /* private void overridePendingTransition(int slide_in_left, int slide_out_right) {
+        public void onBackPressed()
+        {
+            super.onBackPressed();
+            overridePendingTransition(R.anim.slide_in_left,
+                    R.anim.slide_out_right);
+        }
+    }*/
 
     @Override
     public void onItemLongPress(SingleScannedRow singleScannedRow) {
@@ -294,5 +315,8 @@ public class ZoneDetailFragment extends Fragment implements DetailFragmentCallba
         }
 
     }
+
+
+
 
 }
