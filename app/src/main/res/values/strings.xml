@@ -7,6 +7,14 @@
     <string name="zone_with_id">Zone %1$d</string>
     <string name="zone_detail_unique_id">B%1$s-F%2$s-Z%3$s-%4$s-%5$s</string>
     <string name="back">Back</string>
+    <string name="Reset_App">Reset App</string>
+    <string name="do_you_reset">Do you want to reset the app?</string>
+    <string name="Data_saved">Data saved</string>
+    <string name="saved_to_storage">Data has been saved in to local storage of this phone.</string>
+    <string name="no">No</string>
+    <string name="del_device">Delete Device</string>
+    <string name="really_del_device">Do you want to Delete Device?</string>
+    <string name="lang">Language</string>
 
     <string-array name="buildings_array">
         <item></item>
