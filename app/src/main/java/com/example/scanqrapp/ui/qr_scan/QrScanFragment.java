@@ -99,48 +99,54 @@ public class QrScanFragment extends Fragment implements ZXingScannerView.ResultH
 
     @Override
     public void handleResult(Result rawResult) {
-        // ****** set result instance
+        // ****** set scanned result instance
+        try {
+            //replace old rawResult  with new result
+            String result = rawResult.getText().replace(" ", "");
+            //split string with reg expression
+            String[] splitString = result.split("\\n"); // remove next line
 
-        //replace old rawResult  with new result
-        String result = rawResult.getText().replace(" ", "");
-        //split string with reg expression
-        String[] splitString = result.split("\\n"); // remove next line
+            Log.d("read data is 0", splitString[0].substring(0, 30)); // set first 30 strings
+            Log.d("read data is 1", splitString[1]);
 
-        Log.d("read data is 0", splitString[0].substring(0,30)); // set first 30 strings
-        Log.d("read data is 1", splitString[1]);
-
-        if(1 == 1){
-            Log.e("QR", rawResult.getText() );
-
-            //create Scannedrow New instance
-            SingleScannedRow singleScannedRow = new SingleScannedRow();
-            singleScannedRow.uuid = splitString[0].substring(0,30); // set uuid substring from 0-30 index
-            singleScannedRow.productName = splitString[1];
-            singleScannedRow.building = building + "";
-            singleScannedRow.floor = floor + "";
-            singleScannedRow.zone = zone + "";
-            singleScannedRow.uniqueId = building + "_" + floor + "_" + zone + "_"
-                    + splitString[0].substring(0, 4) + "_"
-                    + splitString[1].substring(0, 4);
-
-            //throw exception if row already has UUID scanned
-            if (excelRowArrayList.contains(singleScannedRow)){
-                Toast.makeText(requireActivity(), "QR Already exists", Toast.LENGTH_LONG).show();
-                Navigation.findNavController(binding.getRoot())
-                        .popBackStack();
-            } else {
-                excelRowArrayList.add(singleScannedRow);
-                saveNewRecordIntoExcel();
-            }
+            Log.e("QR", rawResult.getText());
 
 
+                //create Scannedrow New instance
+                SingleScannedRow singleScannedRow = new SingleScannedRow();
+                singleScannedRow.uuid = splitString[0].substring(0, 30); // set uuid substring from 0-30 index
+                singleScannedRow.productName = splitString[1];
+                singleScannedRow.building = building + "";
+                singleScannedRow.floor = floor + "";
+                singleScannedRow.zone = zone + "";
+                singleScannedRow.uniqueId = building + "_" + floor + "_" + zone + "_"
+                        + splitString[0].substring(0, 4) + "_"
+                        + splitString[1].substring(0, 4);
 
-        } else {
-            Log.e("QR",rawResult.getText());
-            Toast.makeText(requireActivity(), "Invailed QR", Toast.LENGTH_LONG).show();
+                //throw exception if row already has UUID scanned
+                if (excelRowArrayList.contains(singleScannedRow)) {
+                    Toast.makeText(requireActivity(), "QR Already exists", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(binding.getRoot())
+                            .popBackStack();
+                } else {
+                    excelRowArrayList.add(singleScannedRow);
+                    saveNewRecordIntoExcel();
+                }
+
+
+
+        }
+        catch (Exception exception){
+            Log.e("QR", rawResult.getText());
             mScannerView.resumeCameraPreview(this);
+            Toast.makeText(requireActivity(), "Invalid QR", Toast.LENGTH_SHORT).show();
+
+            Navigation.findNavController(binding.getRoot())
+                    .popBackStack();
+
         }
     }
+
     private void setListeners() {
         // set listner to navigate back
 
