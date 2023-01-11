@@ -4,22 +4,21 @@
     <string name="app_name">scanQrApp</string>
     <string name="main_fragment">Main Fragment</string>
     <string name="zone_detail_fragment">Zone Detail Fragment</string>
-    <string name="building">建筑物</string>
-    <string name="floor">楼层</string>
-    <string name="zone_with_id">区域 %1$d</string>
+    <string name="building">Building</string>
+    <string name="floor">Floor</string>
+    <string name="zone_with_id">Zone %1$d</string>
     <string name="zone_detail_unique_id">B%1$s-F%2$s-Z%3$s-%4$s-%5$s</string>
-    <string name="back">上一页</string>
-    <string name="Reset_App">重置App</string>
-    <string name="do_you_reset">您是否要重置App</string>
-    <string name="Data_saved">资料已储存</string>
-    <string name="saved_to_storage">资料已储存到本手机</string>
-    <string name="no">否</string>
-    <string name="del_device">删除设备</string>
-    <string name="really_del_device">你是否要删除设备</string>
-    <string name="lang">语言</string>
-    <string name="qr_exists">二维码经存在</string>
-    <string name="invalid_qr">错误二维码</string>
-
+    <string name="back">Back</string>
+    <string name="Reset_App">Reset App</string>
+    <string name="do_you_reset">Do you want to reset the app?</string>
+    <string name="Data_saved">Data saved</string>
+    <string name="saved_to_storage">Data has been saved in to local storage of this phone.</string>
+    <string name="no">No</string>
+    <string name="del_device">Delete Device</string>
+    <string name="really_del_device">Do you want to Delete Device?</string>
+    <string name="lang">Language</string>
+    <string name="qr_exists">QR Already exists</string>
+    <string name="invalid_qr">Invalid QR</string>
 
     <string-array name="buildings_array">
         <item></item>
@@ -136,5 +135,6 @@
         <item>99</item>
         <item>100</item>
     </string-array>
+
 
 </resources>
