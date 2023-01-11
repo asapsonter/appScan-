@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.budiyev.android.codescanner.CodeScanner;
+import com.example.scanqrapp.R;
 import com.example.scanqrapp.databinding.FragmentQrScanBinding;
 import com.example.scanqrapp.models.SingleScannedRow;
 import com.google.zxing.Result;
@@ -125,7 +126,7 @@ public class QrScanFragment extends Fragment implements ZXingScannerView.ResultH
 
                 //throw exception if row already has UUID scanned
                 if (excelRowArrayList.contains(singleScannedRow)) {
-                    Toast.makeText(requireActivity(), "QR Already exists", Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireActivity(), R.string.qr_exists, Toast.LENGTH_LONG).show();
                     Navigation.findNavController(binding.getRoot())
                             .popBackStack();
                 } else {
@@ -139,8 +140,9 @@ public class QrScanFragment extends Fragment implements ZXingScannerView.ResultH
         catch (Exception exception){
             Log.e("QR", rawResult.getText());
             mScannerView.resumeCameraPreview(this);
-            Toast.makeText(requireActivity(), "Invalid QR", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), R.string.invalid_qr, Toast.LENGTH_SHORT).show();
 
+            // navigate back to qr scan page after un-recognized qr code
             Navigation.findNavController(binding.getRoot())
                     .popBackStack();
 
