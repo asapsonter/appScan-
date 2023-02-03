@@ -115,7 +115,7 @@ public class QrScanFragment extends Fragment implements ZXingScannerView.ResultH
 
                 //create Scannedrow New instance
                 SingleScannedRow singleScannedRow = new SingleScannedRow();
-                singleScannedRow.uuid = splitString[0].substring(0, 30); // set uuid substring from 0-30 index
+                singleScannedRow.uuid = splitString[0].substring(0, 32); // set uuid substring from 0-30 index
                 singleScannedRow.productName = splitString[1];
                 singleScannedRow.building = building + "";
                 singleScannedRow.floor = floor + "";

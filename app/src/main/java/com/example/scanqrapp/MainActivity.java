@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+       // overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
        // fragmentTransaction.setCustomAnimations(R.anim.in_from_right, R.anim.out_to_left);
 
 
