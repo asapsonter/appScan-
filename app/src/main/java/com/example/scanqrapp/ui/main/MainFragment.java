@@ -1,6 +1,7 @@
 package com.example.scanqrapp.ui.main;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.google.firebase.storage.FirebaseStorage.getInstance;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -10,7 +11,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,13 +60,16 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
     //uri path
    //private final Uri fileUri = Uri.parse("Internal storage/Android/data/com.example.scanqrapp/files/Building1.xls");
     //private Uri fileUri = null;
-private static String filePath = "/data/******/files/";
+//private static String filePath = "/data/******/files/";
+
+   // Uri fileUri = Uri.parse(Environment.getDataDirectory()+"/files");
+//   Uri fileUri = Uri.fromFile(new File(String.valueOf(getContext().getFilesDir()), "/files"));
 
     //debug tag
     private  static final String TAG = "ADD_PDF_TAG";
     //create firebase reference
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    //StorageReference storageRef = storage.getReference();
+    FirebaseStorage storage = getInstance();
+    StorageReference storageRef = storage.getReference();
 
    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
@@ -86,6 +89,7 @@ private static String filePath = "/data/******/files/";
        //save data to local storage
        binding.ivQr.setOnClickListener(view1 -> {
            //initiate alertDiolog
+          // sendFle();
            new AlertDialog.Builder(requireContext())
                    .setTitle("Save")
                    .setMessage("Data has been saved in to local storage of the phone")
@@ -130,18 +134,23 @@ private static String filePath = "/data/******/files/";
        });
 
    }
-   /* private void sendFile() {
+  /* private void sendFle()   {
         Log.d(TAG, "sendFileIntent");
         Intent intent = new Intent();
-        intent.setType("com.example.scanqrapp/files");
+        intent.setType("images/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"select file"), FILE_PICK_CODE);
-    }
-    public void onActivityResult(int requestCode, int resultCode, @com.google.firebase.database.annotations.Nullable Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
+        startActivityForResult(intent, FILE_PICK_CODE);
+    }*/
 
-        if(resultCode == RESULT_OK){
-            if (requestCode == FILE_PICK_CODE){
+    /*public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //if(resultCode == RESULT_OK){
+        if (requestCode == FILE_PICK_CODE && data != null && data.getData() != null) {
+            fileUri = data.getData();
+            binding.ivQr.setImageURI(fileUri);
+        }
+            *//*if (requestCode == FILE_PICK_CODE){
                 Log.d(TAG, "onActivityResult: FILE picked");
 
                 fileUri = data.getData();
@@ -155,7 +164,10 @@ private static String filePath = "/data/******/files/";
         }
 
 
+    }*//*
     }*/
+
+    /*
    //upload data to storage
    private void uploadDataToStorage(){
        StorageReference storageRef = storage.getReference();
@@ -167,14 +179,26 @@ private static String filePath = "/data/******/files/";
 //       This PC\Galaxy A13 5G\Internal storage\DCIM\Screenshots
       // Uri file = Uri.fromFile(new File(String.valueOf(requireContext().getFilesDir())));
        //file.getPath();
+    /*private String uriToPath( Uri uri )
+    {
+        File backupFile = new File( uri.getPath() );
+        String absolutePath = backupFile.getAbsolutePath();
+        return absolutePath.substring( absolutePath.indexOf( ':' ) + 1 );
+    }*/
 
-       File file = new File(Environment.getDataDirectory(),"*****/files");
+        private void uploadDataToStorage(){
+      //storage = FirebaseStorage.getInstance();
+            Uri fileUri = Uri.fromFile(new File(String.valueOf(requireContext().getExternalFilesDir("building1.xls"))));
 
-       Uri uri = Uri.fromFile(file);
-       File newFile = new File(uri.getPath());
 
-       StorageReference excelFiles = storageRef.child("files"); // try get full path
-       excelFiles.putFile(Uri.fromFile(newFile));
+            storageRef = FirebaseStorage.getInstance().getReference("testing");
+            assert fileUri != null;
+            storageRef.putFile(fileUri);
+
+//This PC\Galaxy A13 5G\Internal storage\Android\data\com.example.scanqrapp\files
+
+
+        }
 
        /*Log.d(TAG, "uploadDataToStorage: uploading data");
        StorageReference storageRef = storage.getReference(); //maybe add path inside the ref
@@ -254,7 +278,6 @@ private static String filePath = "/data/******/files/";
                    }
                });
 */
-   }
   /* private void uploadDataToStorageDB(String uploadDataToStorage, long timestamp){
        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("files");
        ref.child(""+timestamp );
