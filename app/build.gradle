@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -41,6 +42,12 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+    //firebase
+    implementation 'com.google.firebase:firebase-abt:21.1.0'
+    implementation 'com.google.firebase:firebase-database:20.1.0'
+    implementation 'com.google.firebase:firebase-storage:20.1.0'
+    implementation 'com.firebase:firebase-client-android:2.5.2'
+
     implementation 'com.android.support:multidex:1.0.3'
     implementation fileTree(dir: 'D:\\AppGallery\\appScan-\\app\\libs', include: ['*.aar', '*.jar'], exclude: [])
     implementation files('libs/poi-3.7.jar')
@@ -58,4 +65,6 @@ dependencies {
 
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
     implementation 'me.dm7.barcodescanner:zxing:1.9.13'
+
+
 }
