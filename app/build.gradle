@@ -53,6 +53,8 @@ dependencies {
     implementation files('libs/poi-3.7.jar')
 
     implementation 'androidx.core:core:1.8.0'
+    implementation 'androidx.annotation:annotation:1.5.0'
+    implementation 'com.google.firebase:firebase-auth:21.1.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
