@@ -19,6 +19,26 @@
     <string name="lang">语言</string>
     <string name="qr_exists">二维码经存在</string>
     <string name="invalid_qr">错误二维码</string>
+    <string name="email_add">Email Address</string>
+    <string name="user_password">Password</string>
+    <string name="login">Login</string>
+    <string name="resetbtn">Reset Password</string>
+    <string name="register">Register</string>
+    <string name="forget_password">Forgot Password?</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="full_name">Full Name</string>
+    <string name="age">Age</string>
+    <string name="reg_user">Register User</string>
+    <string name="logoutuser">Log out</string>
+
 
 
     <string-array name="buildings_array">

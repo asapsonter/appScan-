@@ -33,6 +33,7 @@ import com.example.scanqrapp.models.SingleScannedRow;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -142,24 +143,42 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
    }
 
         private void uploadDataToStorage() throws IOException {
-           // Uri fileUri = Uri.fromFile(new File(String.valueOf(requireContext().getExternalFilesDir("building1.xls"))));
-           // File file = new File(String.valueOf(requireContext().getExternalFilesDir("building1.xls"  )));
-           //' Uri uri = Uri.fromFile(file);
 
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference("try/something"); //storage ref
-            StorageReference newref = storageReference.child("testingRef");
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+
+
+            // [START upload_create_reference]
+            // Create a storage reference from our app
+            StorageReference storageReference = storage.getReference("parentPath/childPath.xls");
+            StorageReference AnotherRef = storage.getReference("antherpath");
+
+            //StorageReference storageReference = FirebaseStorage.getInstance().getReference(); //storage ref
+           // StorageReference newref = storageReference.child("testingRef");
             //just testing stuff
-            StorageReference anotherRef = storageReference.child("testingRef/somewhere");
-            newref.getName().equals(anotherRef.getName());    // true
-            newref.getPath().equals(anotherRef.getPath());
-           // File file = new File((String.valueOf(requireContext().getExternalFilesDir("building1.xls")))).getParentFile(); //file path
-           Uri file = Uri.fromFile(new File(String.valueOf(new File(requireContext().getExternalFilesDir( "files"), "building1.xls"))));
-           // URI newpath = null;
+            StorageMetadata metadata = new StorageMetadata.Builder()
+                    .setContentType("file/xls")
+                    .build();
+            StorageReference parentPath = storageReference.child("parentPath.xls/childPath.xls");
+            StorageReference childPath = storageReference.child("childPath.xls");
+
+
+           childPath.getName().equals(parentPath.getName());
+           childPath.getPath().equals(parentPath.getPath());
+
+            File file = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                file = new File(String.valueOf(requireContext().getExternalFilesDir(null).getParentFile()),"files");
+            }
+            /*Uri file = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                file = Uri.fromFile(new File(String.valueOf(new File(String.valueOf(requireContext().getDataDir())))));
+            }*/
+            // URI newpath = null;
 
             //file = newpath.getPath(getContext().getExternalFilesDir(file.getParent())).
            // storageReference.putFile(Uri.fromFile(new File(String.valueOf(Objects.requireNonNull(file.getParentFile())))));
 
-            storageReference.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+             storageReference.putFile(Uri.fromFile(file),metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Log.d(TAG, "onSuccess: up successful");
@@ -175,15 +194,6 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
                 }
 
             });
-
-
-
-
-            //StorageReference excelFiles = storage.getReference();
-       // StorageReference storageReference = storage.getReference("new 1");
-        //storageReference.putFile()
-
-
 
 
         }
