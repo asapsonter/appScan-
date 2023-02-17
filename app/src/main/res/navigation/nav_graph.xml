@@ -5,11 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainActivity">
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.scanqrapp.ui.auth_login.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
-    <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.scanqrapp.ui.main.MainFragment"
         android:label="@string/main_fragment"
@@ -32,21 +27,21 @@
         android:name="com.example.scanqrapp.ui.qr_scan.QrScanFragment"
         android:label="fragment_qr_scan"
         tools:layout="@layout/fragment_qr_scan" />
-    <fragment
-        android:id="@+id/forgotPassword"
-        android:name="com.example.scanqrapp.ui.auth_login.ForgotPassword"
-        android:label="fragment_forgot_password"
-        tools:layout="@layout/fragment_forgot_password" />
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.example.scanqrapp.ui.auth_login.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
     <activity
         android:id="@+id/mainActivity"
         android:name="com.example.scanqrapp.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
+    <activity
+        android:id="@+id/registerActivity"
+        android:name="com.example.scanqrapp.RegisterActivity"
+        android:label="activity_register"
+        tools:layout="@layout/activity_register" />
+    <activity
+        android:id="@+id/forgotPassword"
+        android:name="com.example.scanqrapp.ForgotPassword"
+        android:label="activity_forgot_password"
+        tools:layout="@layout/activity_forgot_password" />
 
 
 </navigation>

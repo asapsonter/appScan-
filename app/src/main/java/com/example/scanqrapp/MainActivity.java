@@ -18,6 +18,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.scanqrapp.databinding.ActivityMainBinding;
 import com.example.scanqrapp.ui.main.MainFragment;
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
        // overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
        // fragmentTransaction.setCustomAnimations(R.anim.in_from_right, R.anim.out_to_left);
 
@@ -70,12 +75,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mAuth = FirebaseAuth.getInstance();
 
-         /*       //add nav graph/ nav host to default view
+               //add nav graph/ nav host to default view
         NavHostFragment navHostFragment =
-                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_graph);
+                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.mainFragment);
+
+
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
-        }*/
+        }
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         hideNavBar();
@@ -139,8 +146,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             if (user.isEmailVerified()){
-                                // redirect to profile
-                                startActivity(new Intent(MainActivity.this, MainFragment.class));
+                                Fragment fragment = new MainFragment();
+                                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                                fragmentTransaction.replace(R.id.container,fragment).commit();
+                               /* Navigation.findNavController(MainActivity.this, R.id.mainFragment);
+                                PendingIntent pendingIntent = new NavDeepLinkBuilder(MainActivity.this)
+                                        .setGraph(R.navigation.nav_graph)
+                                        .setDestination(R.id.mainFragment)
+                                        .createPendingIntent();
+                                try {
+                                    pendingIntent.send();
+                                } catch (PendingIntent.CanceledException e) {
+                                    e.printStackTrace();
+                                }*/
+
+
                             } else {
                                 user.sendEmailVerification();
                                 Toast.makeText(MainActivity.this, "check your email to verify this account", Toast.LENGTH_SHORT).show();
