@@ -32,6 +32,10 @@ import com.example.scanqrapp.databinding.FragmentMainBinding;
 import com.example.scanqrapp.models.SingleScannedRow;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
@@ -57,6 +61,10 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
     ZoneAdapter zoneAdapter;
     private  ArrayList<SingleScannedRow> excelRowArrayList = new ArrayList<>();
     private FragmentTransaction fragmentTransaction;
+
+    private FirebaseUser user;
+    private DatabaseReference reference;
+    private String userID;
 
     private static final int FILE_PICK_CODE = 1000;
 
@@ -86,7 +94,9 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
        setZoneRecyclerView();
        loadLocale();
 
-
+       user = FirebaseAuth.getInstance().getCurrentUser();
+       reference = FirebaseDatabase.getInstance().getReference("Users");
+       userID = user.getUid();
 
 
        //save data to local storage
