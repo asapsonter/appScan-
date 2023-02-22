@@ -1,6 +1,5 @@
 package com.example.scanqrapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -23,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignUpActivity extends AppCompatActivity  {
 
     private TextView big_header;
     private AppCompatButton user_regBtn;
@@ -45,11 +44,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         mAuth = FirebaseAuth.getInstance();
 
         //implement user reg btn
-        user_regBtn = (AppCompatButton) findViewById(R.id.user_regBtn);
+       /* user_regBtn = (AppCompatButton) findViewById(R.id.user_regBtn);
         user_regBtn.setOnClickListener(this);
 
         big_header = (TextView) findViewById(R.id.big_header);
-        big_header.setOnClickListener(this);
+        big_header.setOnClickListener(this);*/
 
         editTextfullName = (EditText) findViewById(R.id.input_name);
         editEmail = (EditText) findViewById(R.id.reg_email);
@@ -59,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-    @Override
+  /*  @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.big_header:
@@ -71,7 +70,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 registerUser();
                 break;
         }
-    }
+    }*/
 
     private void registerUser() {
         String input_name = Objects.requireNonNull(editTextfullName.getText()).toString().trim();
