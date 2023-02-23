@@ -125,7 +125,7 @@ public class SignUpActivity extends AppCompatActivity  {
 
                             User user = new User(input_name,  reg_email);
 
-                            FirebaseDatabase.getInstance("https://scanqrapp-1db9d-default-rtdb.firebaseio.com/")
+                            FirebaseDatabase.getInstance("")
                                     .getReference("Users")
                                     .child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
                                     .setValue(user)
