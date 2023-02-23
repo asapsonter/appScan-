@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ForgotPasswordActivity">
-
+    tools:context=".LoginActivity">
 
     <ImageView
         android:id="@+id/iv_back"
@@ -52,6 +51,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_buildings_floors"
         android:layout_width="match_parent"
@@ -65,33 +65,52 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="85dp"
+            android:layout_height="150dp"
             android:paddingStart="20dp"
             android:paddingTop="15dp"
             android:paddingEnd="10dp"
             android:paddingBottom="15dp">
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/reset_password_email"
+            <EditText
+                android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/exo2_regular"
                 android:autofillHints="emailAddress"
+                android:textColor="@color/black"
+                android:textSize="14sp"
                 android:focusable="true"
                 android:hint="@string/email_add"
                 android:inputType="textEmailSubject"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
+
+            <View
+                android:id="@+id/seperator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/gray_background"
+                app:layout_constraintTop_toBottomOf="@id/input_email" />
+
+            <EditText
+                android:id="@+id/input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/exo2_regular"
+                android:focusable="true"
+                android:hint="@string/user_password"
+                android:inputType="textWebPassword"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/seperator"
+                android:autofillHints="" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
-
-
 
     <!--<TextView
         android:id="@+id/big_header"
@@ -101,7 +120,7 @@
         android:textSize="35sp"
         android:textColor="#008e62"
         android:textStyle="bold"
-        android:text="testing"
+        android:text="TESTING"
         android:fontFamily="sans-serif-condensed-medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -119,8 +138,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/big_header" />
 
+
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/reset_password_email"
+        android:id="@+id/input_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="92dp"
@@ -136,20 +156,110 @@
         app:layout_constraintTop_toBottomOf="@+id/layout_title"
         tools:ignore="TouchTargetSizeCheck" />
 
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/input_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="40dp"
+        android:focusable="true"
+        android:hint="@string/user_password"
+        android:inputType="textWebPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_email" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/reset_passwordBtn"
+        android:id="@+id/loginBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="#00ff09"
-        android:text="@string/resetbtn"
+        android:text="@string/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.338"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reset_password_email" />-->
+        app:layout_constraintTop_toBottomOf="@+id/input_password" />
+
+    <TextView
+        android:id="@+id/forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="12dp"
+        android:clickable="true"
+        android:text="@string/forget_password"
+        android:textColor="#100000"
+        app:layout_constraintEnd_toStartOf="@+id/register"
+        app:layout_constraintHorizontal_bias="0.146"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginBtn"
+        android:focusable="true" />
+
+    <TextView
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/register"
+        android:textColor="#100000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.896"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
+-->
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/loginBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/app_blue"
+        android:text="@string/login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv_buildings_floors" />
+
+    <TextView
+        android:id="@+id/forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="12dp"
+        android:clickable="true"
+        android:text="@string/forget_password"
+        android:textColor="#100000"
+        app:layout_constraintHorizontal_bias="0.146"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginBtn"
+        android:focusable="true" />
+
+    <TextView
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/register"
+        android:textColor="#100000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.989"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
 
     <ProgressBar
         android:id="@+id/indeterminateBar"
@@ -160,19 +270,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/reset_passwordBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/app_blue"
-        android:text="@string/resetbtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cv_buildings_floors" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

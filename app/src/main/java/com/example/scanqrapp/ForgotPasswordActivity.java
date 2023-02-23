@@ -18,14 +18,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
-public class ForgotPassword extends AppCompatActivity {
-
+public class ForgotPasswordActivity extends AppCompatActivity {
     private AppCompatEditText emailEditText;
     private AppCompatButton resetPasswordButton;
     private ProgressBar progressBar;
 
     FirebaseAuth auth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +36,6 @@ public class ForgotPassword extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.indeterminateBar);
 
         auth = FirebaseAuth.getInstance();
-
 
         resetPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,9 +63,9 @@ public class ForgotPassword extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(ForgotPassword.this, "check your email to reset your password", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ForgotPasswordActivity.this, "check your email to reset your password", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(ForgotPassword.this, "Try again, something went wrong", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ForgotPasswordActivity.this, "Try again, something went wrong", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -77,6 +74,9 @@ public class ForgotPassword extends AppCompatActivity {
 
 
     }
+
+
+
 
 
 }
