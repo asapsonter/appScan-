@@ -29,8 +29,32 @@
         app:layout_constraintTop_toTopOf="@id/iv_back"
         app:layout_constraintVertical_bias="0.0" />
 
+
     <View
         android:id="@+id/view_back"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_Logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LogOut"
+        android:textColor="@color/app_blue"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="@+id/view_back"
+        app:layout_constraintTop_toTopOf="@+id/view_back"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <View
+        android:id="@+id/viewLogout"
         android:layout_width="70dp"
         android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="@id/iv_back"
@@ -112,111 +136,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!--<TextView
-        android:id="@+id/big_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
-        android:textSize="35sp"
-        android:textColor="#008e62"
-        android:textStyle="bold"
-        android:text="TESTING"
-        android:fontFamily="sans-serif-condensed-medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/layout_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:textColor="#008e62"
-        android:text="testing"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/big_header" />
-
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/input_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:autofillHints="emailAddress"
-        android:focusable="true"
-        android:hint="@string/email_add"
-        android:inputType="textEmailSubject"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_title"
-        tools:ignore="TouchTargetSizeCheck" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/input_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="40dp"
-        android:focusable="true"
-        android:hint="@string/user_password"
-        android:inputType="textWebPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_email" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/loginBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="#00ff09"
-        android:text="@string/login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.338"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_password" />
-
-    <TextView
-        android:id="@+id/forgot_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="12dp"
-        android:clickable="true"
-        android:text="@string/forget_password"
-        android:textColor="#100000"
-        app:layout_constraintEnd_toStartOf="@+id/register"
-        app:layout_constraintHorizontal_bias="0.146"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginBtn"
-        android:focusable="true" />
-
-    <TextView
-        android:id="@+id/register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="12dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="@string/register"
-        android:textColor="#100000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.896"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
--->
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loginBtn"
         android:layout_width="match_parent"
@@ -236,11 +155,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="22dp"
         android:clickable="true"
         android:text="@string/forget_password"
         android:textColor="#100000"
-        app:layout_constraintHorizontal_bias="0.146"
+        android:fontFamily="@font/exo2_regular"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginBtn"
         android:focusable="true" />
@@ -249,16 +168,14 @@
         android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="22dp"
         android:clickable="true"
         android:focusable="true"
-        android:text="@string/register"
+        android:fontFamily="@font/exo2_regular"
+        android:text="@string/signup"
         android:textColor="#100000"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.989"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
 
     <ProgressBar

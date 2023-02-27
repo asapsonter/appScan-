@@ -1,7 +1,11 @@
 package com.example.scanqrapp;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -11,15 +15,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.scanqrapp.databinding.ActivityLoginBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
-    private TextView register, forgot_password;
     private EditText editEmail, editPassword;
-    private AppCompatButton loginBtn;
 
     private FirebaseAuth mAuth;
 
@@ -32,16 +36,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //add nav graph/ nav host to default view
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_graph);
+        if (navHostFragment != null) {
+            NavController navController = navHostFragment.getNavController();
+        }
+
         //set register on click
-        register = (TextView) findViewById(R.id.register);
+        TextView register = (TextView) findViewById(R.id.register);
         register.setOnClickListener(this);
 
         //set forgot password
-        forgot_password = (TextView) findViewById(R.id.forgot_password);
+        TextView forgot_password = (TextView) findViewById(R.id.forgot_password);
         forgot_password.setOnClickListener(this);
 
         //set onClick listener for login butter
-        loginBtn = (AppCompatButton) findViewById(R.id.loginBtn);
+        AppCompatButton loginBtn = (AppCompatButton) findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(this);
 
         editEmail = (EditText) findViewById(R.id.input_email);
@@ -51,8 +62,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         mAuth = FirebaseAuth.getInstance();
 
+        //Navigation.findNavController(findViewById(R.id.view_back)).popBackStack();
+
+
+
+
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         //remember it is a better practice to use if statement
@@ -110,8 +127,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if(task.isSuccessful()){
 
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        assert user != null;
                         if (user.isEmailVerified()){
                             // redirect to profile
+                            Log.d(TAG, String.valueOf(user.getMetadata()));
                             startActivity(new Intent(LoginActivity.this,MainActivity.class));
                         } else {
                             user.sendEmailVerification();
@@ -123,5 +142,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
 
                 });
+
+
     }
 }

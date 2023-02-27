@@ -1,5 +1,6 @@
 package com.example.scanqrapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -10,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.scanqrapp.databinding.ActivityForgotPasswordBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,7 +23,6 @@ import java.util.Objects;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
     private AppCompatEditText emailEditText;
-    private AppCompatButton resetPasswordButton;
     private ProgressBar progressBar;
 
     FirebaseAuth auth;
@@ -31,11 +33,25 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 .inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //add nav graph/ nav host to default view
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_graph);
+        if (navHostFragment != null) {
+            NavController navController = navHostFragment.getNavController();
+        }
+
         emailEditText = (AppCompatEditText) findViewById(R.id.reset_password_email);
-        resetPasswordButton = (AppCompatButton) findViewById(R.id.reset_passwordBtn);
+        AppCompatButton resetPasswordButton = (AppCompatButton) findViewById(R.id.reset_passwordBtn);
         progressBar = (ProgressBar) findViewById(R.id.indeterminateBar);
 
         auth = FirebaseAuth.getInstance();
+
+        binding.viewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ForgotPasswordActivity.this, LoginActivity.class));
+            }
+        });
 
         resetPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override

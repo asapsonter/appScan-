@@ -1,5 +1,6 @@
 package com.example.scanqrapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.scanqrapp.databinding.ActivitySignUpBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,6 +44,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 .inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //add nav graph/ nav host to default view
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_graph);
+        if (navHostFragment != null) {
+            NavController navController = navHostFragment.getNavController();
+        }
+
         mAuth = FirebaseAuth.getInstance();
 
         //implement user reg btn
@@ -59,6 +69,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         /*Navigation.findNavController(binding.getRoot())
                 .popBackStack();
         Navigation.findNavController(R.id.iv_back).popBackStack()*/
+
+        binding.viewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+            }
+        });
     }
 
 
