@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -55,6 +56,9 @@ dependencies {
     implementation 'androidx.core:core:1.8.0'
     implementation 'androidx.annotation:annotation:1.5.0'
     implementation 'com.google.firebase:firebase-auth:21.1.0'
+
+    implementation 'com.google.firebase:firebase-crashlytics:18.3.5'
+
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'

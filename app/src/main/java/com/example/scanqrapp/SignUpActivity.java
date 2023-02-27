@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
-public class SignUpActivity extends AppCompatActivity  {
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView big_header;
     private AppCompatButton user_regBtn;
@@ -44,10 +44,10 @@ public class SignUpActivity extends AppCompatActivity  {
         mAuth = FirebaseAuth.getInstance();
 
         //implement user reg btn
-       /* user_regBtn = (AppCompatButton) findViewById(R.id.user_regBtn);
+        user_regBtn = (AppCompatButton) findViewById(R.id.user_regBtn);
         user_regBtn.setOnClickListener(this);
 
-        big_header = (TextView) findViewById(R.id.big_header);
+        /*big_header = (TextView) findViewById(R.id.big_header);
         big_header.setOnClickListener(this);*/
 
         editTextfullName = (EditText) findViewById(R.id.input_name);
@@ -55,22 +55,25 @@ public class SignUpActivity extends AppCompatActivity  {
         editPassword = (EditText) findViewById(R.id.reg_pass);
 
         progressBar = (ProgressBar) findViewById(R.id.indeterminateBar2);
+
+        /*Navigation.findNavController(binding.getRoot())
+                .popBackStack();
+        Navigation.findNavController(R.id.iv_back).popBackStack()*/
     }
 
 
-  /*  @Override
+   @Override
     public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.big_header:
+        /*case R.id.big_header:
                 //navigate to login page
-                startActivity(new Intent(this, MainActivity.class));
-
-            case R.id.user_regBtn:
-                // get register activity
-                registerUser();
-                break;
-        }
-    }*/
+                startActivity(new Intent(this, MainActivity.class));*/
+       if (view.getId() == R.id.user_regBtn) {// get register activity
+           registerUser();
+       } else {
+           // Toast if user is unable to register account
+           Toast.makeText(SignUpActivity.this,"Try again Later",Toast.LENGTH_SHORT).show();
+       }
+    }
 
     private void registerUser() {
         String input_name = Objects.requireNonNull(editTextfullName.getText()).toString().trim();
