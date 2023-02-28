@@ -8,6 +8,22 @@
     android:background="@color/gray_background"
     tools:context=".ui.main.MainFragment">
 
+
+    <TextView
+        android:id="@+id/signOUtt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/exo2_extrabold"
+        android:clickable="true"
+        android:text="Sign out"
+        app:layout_constraintBottom_toTopOf="@+id/cv_buildings_floors"
+        app:layout_constraintEnd_toEndOf="@+id/langChange"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        android:focusable="true" />
+
     <ImageView
         android:id="@+id/iv_delete"
         android:layout_width="50dp"

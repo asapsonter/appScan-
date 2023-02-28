@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        ifLoggedIn();
         //add nav graph/ nav host to default view
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_graph);
@@ -63,6 +64,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mAuth = FirebaseAuth.getInstance();
 
         //Navigation.findNavController(findViewById(R.id.view_back)).popBackStack();
+
+        binding.viewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+            }
+        });
 
 
 
@@ -145,4 +153,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     }
-}
+
+    public void ifLoggedIn(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        /*if (user.isEmailVerified()){
+            // redirect to profile
+            Log.d(TAG, String.valueOf(user.getMetadata()));
+            startActivity(new Intent(LoginActivity.this,MainActivity.class));*/
+        if (user != null) {
+            // User is signed in
+            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+        } else {
+            // No user is signed in
+            getBaseContext();
+        }
+    }
+ }

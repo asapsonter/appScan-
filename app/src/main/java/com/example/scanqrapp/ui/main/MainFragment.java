@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -27,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.example.scanqrapp.LoginActivity;
 import com.example.scanqrapp.R;
 import com.example.scanqrapp.databinding.FragmentMainBinding;
 import com.example.scanqrapp.models.SingleScannedRow;
@@ -52,6 +54,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.UUID;
 
 public  class MainFragment extends Fragment implements MainFragmentCallbacks {
 
@@ -62,24 +65,12 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
     private FragmentTransaction fragmentTransaction;
 
     private FirebaseUser user;
-    private DatabaseReference reference;
     private String userID;
 
-    private static final int FILE_PICK_CODE = 1000;
 
-    //uri path
-   //private final Uri fileUri = Uri.parse("Internal storage/Android/data/com.example.scanqrapp/files/Building1.xls");
-    //private Uri fileUri = null;
-//private static String filePath = "/data/******/files/";
 
-   // Uri fileUri = Uri.parse(Environment.getDataDirectory()+"/files");
-//   Uri fileUri = Uri.fromFile(new File(String.valueOf(getContext().getFilesDir()), "/files"));
-
-    //debug tag
     private  static final String TAG = "ADD_PDF_TAG";
-    //create firebase reference
-    //FirebaseStorage storage = getInstance();
-   // StorageReference storageRef = storage.getReference();
+
 
    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
@@ -94,10 +85,23 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
        loadLocale();
 
        user = FirebaseAuth.getInstance().getCurrentUser();
-       reference = FirebaseDatabase.getInstance().getReference("Users");
-       userID = user.getUid();
+       DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
 
 
+
+       FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+       binding.signOUtt.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               mAuth.signOut();
+               startActivity(new Intent(getContext(), LoginActivity.class ));
+           }
+       });
+
+
+
+              user.getUid();
        //save data to local storage
        binding.ivQr.setOnClickListener(view1 -> {
            //initiate alertDiolog
@@ -118,6 +122,7 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
 
                    } ).show();
        });
+
 
        //implement hold and delete feature
        binding.ivDelete.setOnClickListener(view1 -> {
@@ -153,10 +158,12 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
 
         private void uploadDataToStorage() throws IOException {
 
-            FirebaseStorage storage = FirebaseStorage.getInstance();
+           // FirebaseStorage storage = FirebaseStorage.getInstance();
+
+            String storagePath = "DeviceInfo/" + UUID.randomUUID() + ".xls"; // set path name to generate random UUID ref
 
             Log.d(TAG, "sendTocloud: entering method");
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference("SycraExcelFiles"); //storage ref
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference(storagePath); //storage ref
             File file = new File(String.valueOf(requireContext().getExternalFilesDir("building1.xls"))); //file path
 
             storageReference.putFile(Uri.fromFile(file)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -175,53 +182,6 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
                 }
 
             });
-            // [START upload_create_reference]
-            // Create a storage reference from our app
-           /* StorageReference storageReference = storage.getReference("parentPath/childPath.xls");
-            StorageReference AnotherRef = storage.getReference("antherpath");
-
-            //StorageReference storageReference = FirebaseStorage.getInstance().getReference(); //storage ref
-           // StorageReference newref = storageReference.child("testingRef");
-            //just testing stuff
-            StorageMetadata metadata = new StorageMetadata.Builder()
-                    .setContentType("file/xls")
-                    .build();
-            StorageReference parentPath = storageReference.child("parentPath.xls/childPath.xls");
-            StorageReference childPath = storageReference.child("childPath.xls");
-
-
-           childPath.getName().equals(parentPath.getName());
-           childPath.getPath().equals(parentPath.getPath());
-
-            File file = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                file = new File(String.valueOf(requireContext().getExternalFilesDir(null).getParentFile()),"files");
-            }*/
-            /*Uri file = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-                file = Uri.fromFile(new File(String.valueOf(new File(String.valueOf(requireContext().getDataDir())))));
-            }*/
-            // URI newpath = null;
-
-            //file = newpath.getPath(getContext().getExternalFilesDir(file.getParent())).
-           // storageReference.putFile(Uri.fromFile(new File(String.valueOf(Objects.requireNonNull(file.getParentFile())))));
-/*
-             storageReference.putFile(Uri.fromFile(file),metadata).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.d(TAG, "onSuccess: up successful");
-                    Toast.makeText(getActivity(),"Sent", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "onFailure: file failed due to " + e.getMessage());
-
-                    Toast.makeText(getActivity(), "Failed to send, Something went wrong", Toast.LENGTH_LONG)
-                            .show();
-                }
-
-            });*/
 
 
         }
@@ -462,7 +422,9 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
 
 
     }
-    private void SendFiles(){
 
-    }
+
+
+
+
 }
