@@ -16,6 +16,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/exo2_extrabold"
+        android:visibility="gone"
         android:clickable="true"
         android:text="Sign out"
         app:layout_constraintBottom_toTopOf="@+id/cv_buildings_floors"
@@ -23,6 +24,20 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         android:focusable="true" />
+
+    <ImageButton
+        android:id="@+id/settingsBtn"
+        android:layout_width="34dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="16dp"
+        android:background="@color/gray_background"
+        android:contentDescription="settings Icon"
+        android:src="@drawable/ic_baseline_app_settings_alt_24"
+        app:layout_constraintBottom_toTopOf="@+id/cv_buildings_floors"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.403"
+        tools:ignore="HardcodedText"/>
 
     <ImageView
         android:id="@+id/iv_delete"
@@ -39,6 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:fontFamily="@font/exo2_regular"
+        android:visibility="gone"
         android:text="EN/中文"
         android:clickable="true"
         android:textColor="@color/black"

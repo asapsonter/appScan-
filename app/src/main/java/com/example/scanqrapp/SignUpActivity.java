@@ -7,7 +7,6 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,7 +26,7 @@ import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView big_header;
+
     private AppCompatButton user_regBtn;
     private EditText editTextfullName;
     private EditText editEmail;
@@ -43,6 +42,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         com.example.scanqrapp.databinding.ActivitySignUpBinding binding = ActivitySignUpBinding
                 .inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         //add nav graph/ nav host to default view
         NavHostFragment navHostFragment =
@@ -65,10 +65,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         editPassword = (EditText) findViewById(R.id.reg_pass);
 
         progressBar = (ProgressBar) findViewById(R.id.indeterminateBar2);
-
-        /*Navigation.findNavController(binding.getRoot())
-                .popBackStack();
-        Navigation.findNavController(R.id.iv_back).popBackStack()*/
 
         binding.viewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,8 +140,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         if (task.isSuccessful()){
 
                             User user = new User(input_name,  reg_email);
+                         /*   String firebaseInstanceUri = "";
+                            try {
+                                ApplicationInfo instanceUri = getPackageManager().getApplicationInfo(getPackageName(),
+                                        PackageManager.GET_META_DATA);
+                                 firebaseInstanceUri = instanceUri.metaData.getString("keyValue");
 
-                            FirebaseDatabase.getInstance("https://scanqrapp-1db9d-default-rtdb.firebaseio.com/")
+                            } catch (PackageManager.NameNotFoundException e){
+                                e.printStackTrace();
+                            }*/
+
+
+                            FirebaseDatabase.getInstance("")
                                     .getReference("Users")
                                     .child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
                                     .setValue(user)

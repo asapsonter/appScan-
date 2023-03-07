@@ -1,11 +1,12 @@
 package com.example.scanqrapp.ui.main;
 
+import static android.R.layout.simple_spinner_item;
 import static android.content.Context.MODE_PRIVATE;
+import static com.google.firebase.database.FirebaseDatabase.getInstance;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -13,17 +14,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -32,15 +35,11 @@ import com.example.scanqrapp.LoginActivity;
 import com.example.scanqrapp.R;
 import com.example.scanqrapp.databinding.FragmentMainBinding;
 import com.example.scanqrapp.models.SingleScannedRow;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -62,10 +61,7 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
     private FragmentMainBinding binding;
     ZoneAdapter zoneAdapter;
     private  ArrayList<SingleScannedRow> excelRowArrayList = new ArrayList<>();
-    private FragmentTransaction fragmentTransaction;
 
-    private FirebaseUser user;
-    private String userID;
 
 
 
@@ -83,29 +79,22 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
        //add zone recycler view method
        setZoneRecyclerView();
        loadLocale();
+       //remember set as local variable
+       FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+       DatabaseReference reference = getInstance().getReference("Users");
 
-       user = FirebaseAuth.getInstance().getCurrentUser();
-       DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
 
 
 
-       FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-       binding.signOUtt.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               mAuth.signOut();
-               startActivity(new Intent(getContext(), LoginActivity.class ));
-           }
-       });
+
 
 
 
               user.getUid();
        //save data to local storage
        binding.ivQr.setOnClickListener(view1 -> {
-           //initiate alertDiolog
-          // sendFle();
+           //initiate alertDialog
            new AlertDialog.Builder(requireContext())
                    .setTitle("Save")
                    .setMessage("Data has been saved in to local storage of the phone")
@@ -125,40 +114,66 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
 
 
        //implement hold and delete feature
-       binding.ivDelete.setOnClickListener(view1 -> {
-           new AlertDialog.Builder(requireContext())
-                   .setTitle("Reset App")
-                   .setMessage("DO YOU WANT TO RESET")
-                   .setIcon(android.R.drawable.ic_dialog_alert)
-                   .setPositiveButton(android.R.string.yes, ((dialog, whichButton)  -> {
-                       File[] fileArray = requireContext().getExternalFilesDir(null).listFiles();
-                       if (fileArray != null)
-                           for (File file : fileArray){
-                               file.delete();
-                           }
-                       SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-                       sharedPreferences.edit().clear().apply();
-                       excelRowArrayList = new ArrayList<SingleScannedRow>();
-                       setZoneRecyclerView();
-                       Toast.makeText(requireContext(), "App reset completed.", Toast.LENGTH_LONG).show();
+       binding.ivDelete.setOnClickListener(view1 -> new AlertDialog.Builder(requireContext())
+               .setTitle("Reset App")
+               .setMessage("DO YOU WANT TO RESET")
+               .setIcon(android.R.drawable.ic_dialog_alert)
+               .setPositiveButton(android.R.string.yes, ((dialog, whichButton)  -> {
+                   File[] fileArray = requireContext().getExternalFilesDir(null).listFiles();
+                   if (fileArray != null)
+                       for (File file : fileArray){
+                           file.delete();
+                       }
+                   SharedPreferences sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE);
+                   sharedPreferences.edit().clear().apply();
+                   excelRowArrayList = new ArrayList<>();
+                   setZoneRecyclerView();
+                   Toast.makeText(requireContext(), "App reset completed.", Toast.LENGTH_LONG).show();
 
-                   } ))
-                   .setNegativeButton(android.R.string.no, null).show();
-       });
-       /// language change listner //////////////
-       binding.langChange.setOnClickListener(new View.OnClickListener() {
+               } ))
+               .setNegativeButton(android.R.string.no, null).show());
+       /// settings menu listener //////////////
+       binding.settingsBtn.setOnClickListener(this::showPopup);
+
+   }
+
+   public  void showPopup(View v){
+       PopupMenu popupmenu = new PopupMenu(requireContext(), v);
+       MenuInflater inflater = popupmenu.getMenuInflater();
+       inflater.inflate(R.menu.settings_menu,popupmenu.getMenu());
+       popupmenu.show();
+
+       popupmenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
            @Override
-           public void onClick(View v) {
-               changeLang();
-               //Log.d("success", "this button works");
+           public boolean onMenuItemClick(MenuItem menuItem) {
+
+               switch (menuItem.getItemId()) {
+                   case R.id.sign_outBtn:
+                       Logout();
+                       break;
+                   case R.id.langChange:
+                       changeLang();
+                       break;
+
+
+               }
+               return false;
            }
        });
 
    }
 
+    private void Logout() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
+        startActivity(new Intent(getContext(), LoginActivity.class ));
+    }
+
+    /* upload to firebase function
+        ***************************************************************************************************************
+         */
         private void uploadDataToStorage() throws IOException {
 
-           // FirebaseStorage storage = FirebaseStorage.getInstance();
 
             String storagePath = "DeviceInfo/" + UUID.randomUUID() + ".xls"; // set path name to generate random UUID ref
 
@@ -166,44 +181,36 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference(storagePath); //storage ref
             File file = new File(String.valueOf(requireContext().getExternalFilesDir("building1.xls"))); //file path
 
-            storageReference.putFile(Uri.fromFile(file)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.d(TAG, "onSuccess: up successful");
-                    Toast.makeText(getActivity(),"Sent", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "onFailure: file failed due to " + e.getMessage());
+            storageReference.putFile(Uri.fromFile(file)).addOnSuccessListener(taskSnapshot -> {
+                Log.d(TAG, "onSuccess: up successful");
+                Toast.makeText(getActivity(),"Sent", Toast.LENGTH_SHORT).show();
+            }).addOnFailureListener(e -> {
+                Log.d(TAG, "onFailure: file failed due to " + e.getMessage());
 
-                    Toast.makeText(getActivity(), "Failed to send, Something went wrong", Toast.LENGTH_LONG)
-                            .show();
-                }
-
+                Toast.makeText(getActivity(), "Failed to send, Something went wrong", Toast.LENGTH_LONG)
+                        .show();
             });
 
 
         }
 
-
+    /*
+    language switch function
+     */
     private void changeLang(){
-        final String languages[] = {"English", "中文"};
+        final String[] languages = {"English", "中文"};
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
         mBuilder.setTitle(R.string.lang);
 
 
-        mBuilder.setSingleChoiceItems(languages, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
-                    setLocale("");
-                    getActivity().recreate();
-                }
-                else if (which == 1){
-                    setLocale("zh");
-                    getActivity().recreate();
-                }
+        mBuilder.setSingleChoiceItems(languages, -1, (dialog, which) -> {
+            if (which == 0) {
+                setLocale("");
+                requireActivity().recreate();
+            }
+            else if (which == 1){
+                setLocale("zh");
+                requireActivity().recreate();
             }
         });
         // create and show dialog
@@ -218,16 +225,16 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
         /// config the Base activity around app
         Configuration configuration = new Configuration();
         configuration.locale = locale;
-        getActivity().getBaseContext().getResources().updateConfiguration(configuration, getActivity().
+        requireActivity().getBaseContext().getResources().updateConfiguration(configuration, requireActivity().
                 getBaseContext().getResources().getDisplayMetrics());
 
         //initiate shared pref ///////
-        SharedPreferences.Editor editor = getActivity().getSharedPreferences("settings", MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = requireActivity().getSharedPreferences("settings", MODE_PRIVATE).edit();
         editor.putString("app_lang", language);
         editor.apply();
     }
     private void loadLocale() {
-        SharedPreferences preferences = getActivity().getSharedPreferences("settings", MODE_PRIVATE);
+        SharedPreferences preferences = requireActivity().getSharedPreferences("settings", MODE_PRIVATE);
         String language = preferences.getString("app_lang", "");
         setLocale(language);
     }
@@ -270,12 +277,14 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
     }
 
     private void updateTotalZone() {
-       SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+       SharedPreferences sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE);
        int zone = sharedPreferences.getInt("zone", 9);
        SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("zone", zone + 3);
         editor.apply();
     }
+
+
 
     //set spinners building & floor
     private void setSpinner(){
@@ -285,10 +294,10 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
                 .createFromResource(
                         requireContext(),
                         R.array.floors_array,
-                        android.R.layout.simple_spinner_item
+                        simple_spinner_item
                 );
 
-        //invoke building spinner
+        //initiate  building spinner
         adapterBuilding.setDropDownViewResource(R.layout.item_spinner);
         spinnerBuilding.setAdapter(adapterBuilding);
         spinnerBuilding.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -314,7 +323,7 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
                 .createFromResource(
                         requireContext(),
                         R.array.floors_array,
-                        android.R.layout.simple_spinner_item
+                        simple_spinner_item
                 );
         //initiate floor spinner
         adapterFloor.setDropDownViewResource(R.layout.item_spinner);
@@ -334,8 +343,9 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
 
 
 
-    }
 
+    }
+/// data to external dir
     private void readExcelFile(String fileName) {
         File file = new File(requireContext().getExternalFilesDir(null), fileName);
 
@@ -398,10 +408,8 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
             }
         }
     }
-
-
     private void setZoneRecyclerView() {
-        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE);
         int zone =  sharedPreferences.getInt("zone", 9);
         mViewModel.initializeZoneList(zone);
         zoneAdapter = new ZoneAdapter(
@@ -413,18 +421,10 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
                 this
         );
 
-
         //binding recycler view ud instance to instantiate zoneAdapter data
-
         binding.rvZones.setAdapter(zoneAdapter);
         binding.rvZones.setLayoutManager(new GridLayoutManager(requireContext(), 3));
 
-
-
     }
-
-
-
-
 
 }

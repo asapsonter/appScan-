@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //remember it is a better practice to use if statement
         switch (view.getId()){
             case R.id.register:
-                //onclick sent to RegisterActivicty
+                //onclick sent to RegisterActivity
                 startActivity(new Intent(this, SignUpActivity.class));
                 break;
 
@@ -156,10 +156,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void ifLoggedIn(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        /*if (user.isEmailVerified()){
-            // redirect to profile
-            Log.d(TAG, String.valueOf(user.getMetadata()));
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));*/
         if (user != null) {
             // User is signed in
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
