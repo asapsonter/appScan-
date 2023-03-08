@@ -9,16 +9,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.scanqrapp.databinding.ActivitySignUpBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -57,8 +53,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         user_regBtn = (AppCompatButton) findViewById(R.id.user_regBtn);
         user_regBtn.setOnClickListener(this);
 
-        /*big_header = (TextView) findViewById(R.id.big_header);
-        big_header.setOnClickListener(this);*/
 
         editTextfullName = (EditText) findViewById(R.id.input_name);
         editEmail = (EditText) findViewById(R.id.reg_email);
@@ -66,26 +60,27 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         progressBar = (ProgressBar) findViewById(R.id.indeterminateBar2);
 
-        binding.viewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
-            }
-        });
+        binding.viewBack.setOnClickListener(view -> startActivity(new Intent(SignUpActivity.this, LoginActivity.class)));
     }
 
 
    @Override
     public void onClick(View view) {
-        /*case R.id.big_header:
-                //navigate to login page
-                startActivity(new Intent(this, MainActivity.class));*/
-       if (view.getId() == R.id.user_regBtn) {// get register activity
+
+        switch (view.getId()){
+            case  R.id.register:
+                registerUser();
+                startActivity(new Intent(this, SignUpActivity.class));
+        }
+
+
+
+       /*if (view.getId() == R.id.user_regBtn) {// get register activity
            registerUser();
        } else {
            // Toast if user is unable to register account
            Toast.makeText(SignUpActivity.this,"Try again Later",Toast.LENGTH_SHORT).show();
-       }
+       }*/
     }
 
     private void registerUser() {
@@ -131,55 +126,57 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             editEmail.requestFocus();
             return;
         }
-
-        progressBar.setVisibility(View.GONE);
-        mAuth.createUserWithEmailAndPassword(reg_email,reg_pass)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-
-                            User user = new User(input_name,  reg_email);
-                         /*   String firebaseInstanceUri = "";
-                            try {
-                                ApplicationInfo instanceUri = getPackageManager().getApplicationInfo(getPackageName(),
-                                        PackageManager.GET_META_DATA);
-                                 firebaseInstanceUri = instanceUri.metaData.getString("keyValue");
-
-                            } catch (PackageManager.NameNotFoundException e){
-                                e.printStackTrace();
-                            }*/
+        try {
+            progressBar.setVisibility(View.GONE);
+            mAuth.createUserWithEmailAndPassword(reg_email, reg_pass)
+                    .addOnCompleteListener(task -> {
 
 
-                            FirebaseDatabase.getInstance("")
+                        if (task.isSuccessful()) {
+
+                            User user = new User(input_name, reg_email);
+                     /*   String firebaseInstanceUri = "";
+                        try {
+                            ApplicationInfo instanceUri = getPackageManager().getApplicationInfo(getPackageName(),
+                                    PackageManager.GET_META_DATA);
+                             firebaseInstanceUri = instanceUri.metaData.getString("keyValue");
+
+                        } catch (PackageManager.NameNotFoundException e){
+                            e.printStackTrace();
+                        }*/
+
+
+                            FirebaseDatabase.getInstance("https://scanqrapp-1db9d-default-rtdb.firebaseio.com")
                                     .getReference("Users")
                                     .child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
                                     .setValue(user)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
+                                    .addOnCompleteListener(task1 -> {
 
-                                            if(task.isSuccessful()){
-                                                Toast.makeText(SignUpActivity.this, "user has been registered! ", Toast.LENGTH_LONG).show();
-                                                progressBar.setVisibility(View.VISIBLE);
-                                                Log.d("Error", Objects.requireNonNull(task.getException()).toString());
+                                        if (task1.isSuccessful()) {
+                                            Toast.makeText(SignUpActivity.this, "user has been registered! ", Toast.LENGTH_LONG).show();
+                                            progressBar.setVisibility(View.VISIBLE);
+                                            Log.d("Error", Objects.requireNonNull(task1.getException()).toString());
 
-                                            } else {
-                                                Toast.makeText(SignUpActivity.this, "registration failed, check your info and try again! ", Toast.LENGTH_LONG).show();
-                                                progressBar.setVisibility(View.GONE);
-
-                                            }
+                                        } else {
+                                            Toast.makeText(SignUpActivity.this, "registration failed, check your info and try again! ", Toast.LENGTH_LONG).show();
+                                            progressBar.setVisibility(View.GONE);
 
                                         }
+
                                     });
 
-                        } else{
+                        } else {
                             Toast.makeText(SignUpActivity.this, "failed to register", Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
                             Log.d("Error", Objects.requireNonNull(task.getException()).toString());
 
                         }
-                    }
-                });
+
+                    });
+        }catch (IllegalStateException e){
+            Toast.makeText(SignUpActivity.this,"Please Wait", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, LoginActivity.class));
+
+        }
     }
 }

@@ -2,7 +2,8 @@ package com.example.scanqrapp.ui.main;
 
 import static android.R.layout.simple_spinner_item;
 import static android.content.Context.MODE_PRIVATE;
-import static com.google.firebase.database.FirebaseDatabase.getInstance;
+import static com.example.scanqrapp.R.id.langChange;
+import static com.example.scanqrapp.R.id.sign_outBtn;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -15,7 +16,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -36,8 +36,6 @@ import com.example.scanqrapp.R;
 import com.example.scanqrapp.databinding.FragmentMainBinding;
 import com.example.scanqrapp.models.SingleScannedRow;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -64,11 +62,12 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
 
 
 
-
     private  static final String TAG = "ADD_PDF_TAG";
 
 
-   @Override
+
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
        super.onViewCreated(view, savedInstanceState);
      // requireActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
@@ -80,18 +79,9 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
        setZoneRecyclerView();
        loadLocale();
        //remember set as local variable
-       FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-       DatabaseReference reference = getInstance().getReference("Users");
 
 
-
-
-
-
-
-
-
-              user.getUid();
+             // user.getUid();
        //save data to local storage
        binding.ivQr.setOnClickListener(view1 -> {
            //initiate alertDialog
@@ -137,28 +127,26 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
 
    }
 
+   @SuppressLint("NonConstantResourceId")
    public  void showPopup(View v){
        PopupMenu popupmenu = new PopupMenu(requireContext(), v);
        MenuInflater inflater = popupmenu.getMenuInflater();
        inflater.inflate(R.menu.settings_menu,popupmenu.getMenu());
        popupmenu.show();
 
-       popupmenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-           @Override
-           public boolean onMenuItemClick(MenuItem menuItem) {
+       popupmenu.setOnMenuItemClickListener(menuItem -> {
 
-               switch (menuItem.getItemId()) {
-                   case R.id.sign_outBtn:
-                       Logout();
-                       break;
-                   case R.id.langChange:
-                       changeLang();
-                       break;
+           switch (menuItem.getItemId()) {
+               case sign_outBtn:
+                   Logout();
+                   break;
+               case langChange:
+                   changeLang();
+                   break;
 
 
-               }
-               return false;
            }
+           return false;
        });
 
    }
@@ -246,7 +234,10 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(getLayoutInflater());
+
+
         return binding.getRoot();
+
 
 
     }
