@@ -141,8 +141,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
 
-
-                            // FirebaseDatabase.getInstance("https://scanqrapp-1db9d-default-rtdb.firebaseio.com")
                             FirebaseDatabase.getInstance(BuildConfig.firebaseAPI)
                                     .getReference("Users")
                                     .child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
