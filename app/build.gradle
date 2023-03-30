@@ -27,9 +27,17 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
+            //api key
+           // it.buildConfigField 'String', 'firebaseAPI', firebaseAPIuri
+
 
         }
+        buildTypes.each {
+            it.buildConfigField 'String', 'firebaseAPI', firebaseAPIuri
+        }
     }
+
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

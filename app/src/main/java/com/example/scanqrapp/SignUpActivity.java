@@ -66,10 +66,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
    @Override
     public void onClick(View view) {
-        try{
-            if (view.getId() == R.id.register) {
+       try{
+            if (view.getId() == R.id.user_regBtn) {
                 registerUser();
-                startActivity(new Intent(this, SignUpActivity.class));
+                startActivity(new Intent(this, LoginActivity.class));
             }else {
                 // Toast if user is unable to register account
                 progressBar.setVisibility(View.GONE);
@@ -77,7 +77,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             }
 
         }catch (Exception e){
-            startActivity(new Intent(SignUpActivity.this, SignUpActivity.class));
+           e.printStackTrace();
+
+           Log.d("debug", "onClick: ");
+           // startActivity(new Intent(SignUpActivity.this, SignUpActivity.class));
 
         }
 
@@ -135,18 +138,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         if (task.isSuccessful()) {
 
                             User user = new User(input_name, reg_email);
-                     /*   String firebaseInstanceUri = "";
-                        try {
-                            ApplicationInfo instanceUri = getPackageManager().getApplicationInfo(getPackageName(),
-                                    PackageManager.GET_META_DATA);
-                             firebaseInstanceUri = instanceUri.metaData.getString("keyValue");
-
-                        } catch (PackageManager.NameNotFoundException e){
-                            e.printStackTrace();
-                        }*/
 
 
-                            FirebaseDatabase.getInstance("https://scanqrapp-1db9d-default-rtdb.firebaseio.com")
+
+
+                            // FirebaseDatabase.getInstance("https://scanqrapp-1db9d-default-rtdb.firebaseio.com")
+                            FirebaseDatabase.getInstance(BuildConfig.firebaseAPI)
                                     .getReference("Users")
                                     .child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
                                     .setValue(user)
@@ -159,6 +156,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                                         } else {
                                             Toast.makeText(SignUpActivity.this, "registration failed, check your info and try again! ", Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(this, LoginActivity.class));
                                             progressBar.setVisibility(View.GONE);
 
                                         }

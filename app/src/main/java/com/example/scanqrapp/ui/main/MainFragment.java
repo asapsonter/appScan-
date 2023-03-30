@@ -167,30 +167,12 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
             String storagePath = "DeviceInfo/" + UUID.randomUUID() + ".xls"; // set path name to generate random UUID ref
 
             Log.d(TAG, "sendTocloud: entering method");
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference(storagePath).child(String.valueOf(user)); //storage ref
 
-            /*
-            String externalDirPath = Environment.getExternalStorageDirectory().toString()+"/files";
-            Log.d(TAG, "uploadDataToStorage: "+externalDirPath);
-            File directory = new File(externalDirPath);
-            File[] files = directory.listFiles();
-            Log.d(TAG, "uploadDataToStorage: size" +files.length);
+            /** this storage path generates
+             a storage reference email, because of `.child(String.valueOf(user)); //storage ref`
+             **/
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference(storagePath);
 
-            for (int i = 0; i < files.length; i++ ) {
-                Log.d(TAG, "uploadDataToStorage: filesName" + files[i].getName());
-
-                storageReference.putFile(Uri.parse(Arrays.toString(files))).addOnSuccessListener(taskSnapshot -> {
-                    Log.d(TAG, "onSuccess: up successful");
-                }).addOnFailureListener(e -> {
-                            Log.d(TAG, "onFailure: file failed due to " + e.getMessage());
-
-                            Toast
-.makeText(getActivity(), "Failed to send, Something went wrong", Toast.LENGTH_LONG)
-                            .show();
-                });
-                Toast.makeText(getActivity(), "Sent", Toast.LENGTH_SHORT).show();
-
-            }*/
 
                // String target = "building1.xls";
              File file = new File(String.valueOf(requireContext().getExternalFilesDir("/building1.xls"))); //file path
