@@ -36,6 +36,7 @@ import com.example.scanqrapp.R;
 import com.example.scanqrapp.databinding.FragmentMainBinding;
 import com.example.scanqrapp.models.SingleScannedRow;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -60,7 +61,7 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
     ZoneAdapter zoneAdapter;
     private  ArrayList<SingleScannedRow> excelRowArrayList = new ArrayList<>();
 
-
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     private  static final String TAG = "ADD_PDF_TAG";
 
@@ -166,8 +167,35 @@ public  class MainFragment extends Fragment implements MainFragmentCallbacks {
             String storagePath = "DeviceInfo/" + UUID.randomUUID() + ".xls"; // set path name to generate random UUID ref
 
             Log.d(TAG, "sendTocloud: entering method");
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference(storagePath); //storage ref
-            File file = new File(String.valueOf(requireContext().getExternalFilesDir("building1.xls"))); //file path
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference(storagePath).child(String.valueOf(user)); //storage ref
+
+            /*
+            String externalDirPath = Environment.getExternalStorageDirectory().toString()+"/files";
+            Log.d(TAG, "uploadDataToStorage: "+externalDirPath);
+            File directory = new File(externalDirPath);
+            File[] files = directory.listFiles();
+            Log.d(TAG, "uploadDataToStorage: size" +files.length);
+
+            for (int i = 0; i < files.length; i++ ) {
+                Log.d(TAG, "uploadDataToStorage: filesName" + files[i].getName());
+
+                storageReference.putFile(Uri.parse(Arrays.toString(files))).addOnSuccessListener(taskSnapshot -> {
+                    Log.d(TAG, "onSuccess: up successful");
+                }).addOnFailureListener(e -> {
+                            Log.d(TAG, "onFailure: file failed due to " + e.getMessage());
+
+                            Toast
+.makeText(getActivity(), "Failed to send, Something went wrong", Toast.LENGTH_LONG)
+                            .show();
+                });
+                Toast.makeText(getActivity(), "Sent", Toast.LENGTH_SHORT).show();
+
+            }*/
+
+               // String target = "building1.xls";
+             File file = new File(String.valueOf(requireContext().getExternalFilesDir("/building1.xls"))); //file path
+            //final File file = new File(String.valueOf(requireContext().getExternalFilesDir(null)), target);
+            Log.d(TAG, "uploadDataToStorage: "+file);
 
             storageReference.putFile(Uri.fromFile(file)).addOnSuccessListener(taskSnapshot -> {
                 Log.d(TAG, "onSuccess: up successful");

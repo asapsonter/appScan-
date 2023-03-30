@@ -66,21 +66,21 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
    @Override
     public void onClick(View view) {
-
-        switch (view.getId()){
-            case  R.id.register:
+        try{
+            if (view.getId() == R.id.register) {
                 registerUser();
                 startActivity(new Intent(this, SignUpActivity.class));
+            }else {
+                // Toast if user is unable to register account
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(SignUpActivity.this,"Try again Later",Toast.LENGTH_SHORT).show();
+            }
+
+        }catch (Exception e){
+            startActivity(new Intent(SignUpActivity.this, SignUpActivity.class));
+
         }
 
-
-
-       /*if (view.getId() == R.id.user_regBtn) {// get register activity
-           registerUser();
-       } else {
-           // Toast if user is unable to register account
-           Toast.makeText(SignUpActivity.this,"Try again Later",Toast.LENGTH_SHORT).show();
-       }*/
     }
 
     private void registerUser() {
