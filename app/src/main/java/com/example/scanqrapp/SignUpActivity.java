@@ -139,9 +139,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                             User user = new User(input_name, reg_email);
 
-
-
                             FirebaseDatabase.getInstance(BuildConfig.firebaseAPI)
+                           
                                     .getReference("Users")
                                     .child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
                                     .setValue(user)
